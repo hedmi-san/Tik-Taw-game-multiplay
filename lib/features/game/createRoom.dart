@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tiktaw/constants/colors.dart';
-
+import '../../resources/socket_client.dart';
 import '../../constants/widgets.dart';
 
 class CreateRoomScreen extends StatefulWidget {
@@ -12,6 +12,24 @@ class CreateRoomScreen extends StatefulWidget {
 
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final _nameController = TextEditingController();
+  final SocketClient _socketClient = SocketClient();
+
+  @override
+  void initState() {
+    super.initState();
+    _socketClient.initializeSocket();
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _socketClient.socket?.dispose();
+    super.dispose();
+  }
+
+  void _createRoom(String nickname) {
+    _socketClient.createRoom(nickname);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +96,9 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               ),
               CustomButton(
                 text: 'Create',
-                func: () {},
+                func: () {
+                  _createRoom(_nameController.text);
+                },
               ),
             ],
           ),
