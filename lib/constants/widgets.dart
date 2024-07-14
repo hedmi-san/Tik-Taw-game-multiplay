@@ -57,6 +57,9 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextField(
         controller: _controller,
+        style: const TextStyle(
+          color: Colors.white,
+        ),
         decoration: InputDecoration(
           filled: true,
           fillColor: bgColor,

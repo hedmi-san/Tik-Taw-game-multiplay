@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tiktaw/constants/colors.dart';
-import '../../resources/socket_client.dart';
 import '../../constants/widgets.dart';
 
 class CreateRoomScreen extends StatefulWidget {
@@ -12,23 +10,11 @@ class CreateRoomScreen extends StatefulWidget {
 
 class _CreateRoomScreenState extends State<CreateRoomScreen> {
   final _nameController = TextEditingController();
-  final SocketClient _socketClient = SocketClient();
-
-  @override
-  void initState() {
-    super.initState();
-    _socketClient.initializeSocket();
-  }
 
   @override
   void dispose() {
     _nameController.dispose();
-    _socketClient.socket?.dispose();
     super.dispose();
-  }
-
-  void _createRoom(String nickname) {
-    _socketClient.createRoom(nickname);
   }
 
   @override
@@ -64,41 +50,16 @@ class _CreateRoomScreenState extends State<CreateRoomScreen> {
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.03,
               ),
-              Container(
-                decoration: const BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                      blurRadius: 5,
-                      color: Colors.blue,
-                      spreadRadius: 2,
-                    ),
-                  ],
-                ),
-                child: TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                    filled: true,
-                    fillColor: bgColor,
-                    hintText: 'Enter your nickname',
-                    hintStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(5),
-                      ),
-                    ),
-                  ),
-                ),
+              CustomTextField(
+                text: 'Enter your nickname',
+                Controller: _nameController,
               ),
               SizedBox(
                 height: MediaQuery.sizeOf(context).height * 0.03,
               ),
               CustomButton(
                 text: 'Create',
-                func: () {
-                  _createRoom(_nameController.text);
-                },
+                func: () {},
               ),
             ],
           ),
